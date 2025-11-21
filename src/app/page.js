@@ -1,4 +1,4 @@
-'use client'; // recharts는 브라우저에서 실행되어야 하므로 'use client'가 필요합니다.
+'use client';
 import Link from 'next/link';
 import { 
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer 

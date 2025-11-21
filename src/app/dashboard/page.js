@@ -80,7 +80,7 @@ export default function DashboardPage() {
     const poll = async () => {
       try {
         const res = await apiRequest(
-          `${API_BASE_URL}/api/device/list?page=1&limit=${FETCH_LIMIT}`
+          `/api/device/list?page=1&limit=${FETCH_LIMIT}`
         );
         const list = res?.data?.list || [];
 
@@ -131,7 +131,7 @@ export default function DashboardPage() {
 
     try {
       const res = await apiRequest(
-        `${API_BASE_URL}/api/device/list?serialNum=${adminSerial}&page=1&limit=${FETCH_LIMIT}`
+        `/api/device/list?serialNum=${adminSerial}&page=1&limit=${FETCH_LIMIT}`
       );
 
       const list = res?.data?.list || [];

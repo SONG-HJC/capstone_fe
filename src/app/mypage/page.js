@@ -24,7 +24,7 @@ export default function MyPage() {
   setUser(prev => ({ ...prev, noticeSet: newSetting }));
 
   try {
-    const result = await apiRequest(`${API_BASE_URL}/api/user/notice`, {
+    const result = await apiRequest(`/api/user/notice`, {
       method: "PATCH",
       body: JSON.stringify({ noticeSet: newSetting }),
     });
