@@ -5,7 +5,6 @@ import { BellAlertIcon, PencilSquareIcon } from '@heroicons/react/24/solid';
 import { useUser } from '@/components/UserContext';
 import { useRouter } from 'next/navigation';
 import { apiRequest } from '@/utils/apiRequest';
-import { API_BASE_URL } from '@/utils/config';
 
 import InfoItem from '@/components/mypage/InfoItem';
 import ToggleItem from '@/components/mypage/ToggleItem';
@@ -62,7 +61,7 @@ export default function MyPage() {
     if (!confirmed) return;
 
     try {
-      await apiRequest(`${API_BASE_URL}/api/user/my`, {
+      await apiRequest(`/api/user/my`, {
         method: "DELETE"
       });
 

@@ -5,7 +5,6 @@ import { useUser } from '@/components/UserContext';
 import { useRouter } from 'next/navigation';
 import { ArrowPathIcon, UserGroupIcon } from '@heroicons/react/24/solid';
 import { apiRequest } from '@/utils/apiRequest'; 
-import { API_BASE_URL } from '@/utils/config';
 
 // 로딩 UI
 const RedirectingUI = ({ message = '페이지 이동 중...' }) => (
@@ -69,7 +68,7 @@ export default function AdminPage() {
     });
 
     try {
-      const url = `${API_BASE_URL}/api/admin/users?${params.toString()}`;
+      const url = `/api/admin/users?${params.toString()}`;
       const result = await apiRequest(url);
 
       if (result.data) {

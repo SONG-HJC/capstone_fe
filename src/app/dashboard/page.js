@@ -4,7 +4,6 @@ import { useState, useEffect, useRef } from 'react';
 import { useUser } from '@/components/UserContext';
 import { BellAlertIcon} from '@heroicons/react/24/solid';
 import { apiRequest } from '@/utils/apiRequest';
-import { API_BASE_URL } from '@/utils/config';
 
 import NoiseChart from '@/components/dashboard/NoiseChart';
 import NoiseTable from '@/components/dashboard/NoiseTable';
@@ -52,7 +51,7 @@ export default function DashboardPage() {
       setIsLoading(true);
       try {
         const res = await apiRequest(
-          `${API_BASE_URL}/api/device/list?page=1&limit=${FETCH_LIMIT}`
+          `/api/device/list?page=1&limit=${FETCH_LIMIT}`
         );
         const list = res?.data?.list || [];
 

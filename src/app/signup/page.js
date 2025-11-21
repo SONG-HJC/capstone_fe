@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { API_BASE_URL } from "@/utils/config";
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -26,7 +25,7 @@ export default function SignUpPage() {
     }
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/auth/signup`, { // API 호출
+      const response = await fetch(`/api/auth/signup`, { // API 호출
         method: "POST", // POST 메서드
         headers: {
           "Content-Type": "application/json", // JSON 타입 헤더

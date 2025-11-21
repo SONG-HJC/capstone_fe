@@ -2,7 +2,6 @@
 
 import { createContext, useContext, useState, useEffect } from 'react';
 import { apiRequest } from '@/utils/apiRequest';
-import { API_BASE_URL } from '@/utils/config';
 
 const UserContext = createContext(null);
 
@@ -24,7 +23,7 @@ export function UserProvider({ children }) {
         return;
       }
 
-      const response = await apiRequest(`${API_BASE_URL}/api/user/my`);
+      const response = await apiRequest(`/api/user/my`);
       const userData = response.data.user
       
       setUser(userData);

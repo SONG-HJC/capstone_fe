@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/components/UserContext";
-import { API_BASE_URL } from '@/utils/config';
 
 export default function LoginPage() {
   const router = useRouter();

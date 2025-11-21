@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeftIcon, CheckCircleIcon } from '@heroicons/react/24/solid';
 import { apiRequest } from '@/utils/apiRequest';
-import { API_BASE_URL } from '@/utils/config';
 import FormInput from '@/components/ui/FormInput';
 
 export default function EditProfilePage() {
@@ -74,7 +73,7 @@ export default function EditProfilePage() {
   }
 
   try {
-  const result = await apiRequest(`${API_BASE_URL}/api/user/my`, {
+  const result = await apiRequest(`/api/user/my`, {
     method: "PATCH",
     body: JSON.stringify(body)
   });
@@ -83,7 +82,7 @@ export default function EditProfilePage() {
   if (!result?.data?.user) {
     // 직접 프로필 다시 가져오기
     try {
-      const refreshed = await apiRequest(`${API_BASE_URL}/api/user/my`);
+      const refreshed = await apiRequest(`/api/user/my`);
       if (refreshed?.data?.user) {
         setUser(refreshed.data.user);
       }
