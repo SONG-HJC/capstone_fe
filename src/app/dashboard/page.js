@@ -1,8 +1,12 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { useUser } from '@/components/UserContext';
-import { BellAlertIcon} from '@heroicons/react/24/solid';
+import { 
+  BellAlertIcon, 
+  CheckCircleIcon, 
+  ExclamationTriangleIcon // [신규] 주의 상태 아이콘 추가
+} from '@heroicons/react/24/solid';
 import { apiRequest } from '@/utils/apiRequest';
 
 import NoiseChart from '@/components/dashboard/NoiseChart';
@@ -147,6 +151,48 @@ export default function DashboardPage() {
     }
   };
 
+  // ==================== [신규] DATA ANALYSIS LOGIC ====================
+  // 현재 화면에 보여줄 데이터 결정
+  const activeData = isAdmin ? adminNoise : noiseData;
+
+  const analysisReport = useMemo(() => {
+    if (!activeData || activeData.length === 0) return null;
+
+    // 1. 최대 소음 찾기
+    let maxItem = activeData[0];
+    activeData.forEach(item => {
+      if (item.dba > maxItem.dba) maxItem = item;
+    });
+
+    // 2. 가장 빈번한 소음 원인 찾기
+    const counts = {};
+    activeData.forEach(item => {
+      const type = item.what_noise || '알 수 없음';
+      counts[type] = (counts[type] || 0) + 1;
+    });
+    
+    // 최빈값 도출
+    const frequentNoise = Object.keys(counts).reduce((a, b) => 
+      counts[a] > counts[b] ? a : b
+    , '분석 중');
+
+    // 3. 시간 포맷팅
+    const maxTimeStr = maxItem.created_at 
+      ? new Date(maxItem.created_at).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+      : '-';
+
+    // 4. 상태 판단 (예: 60dB 이상이면 주의)
+    const isStable = maxItem.dba < 60;
+
+    return {
+      maxDba: maxItem.dba,
+      maxTime: maxTimeStr,
+      frequentNoise,
+      isStable
+    };
+  }, [activeData]);
+
+
   // ------------------- LOADING / ERROR CHECK ------------------------
   if (isUserLoading) return LoadingUI("사용자 정보 로딩 중...");
   if (userError || error) return ErrorUI(userError || error);
@@ -200,6 +246,52 @@ export default function DashboardPage() {
             data={mapNoiseForChart(noiseData)} 
             title="실시간 소음 그래프"
           />
+        </section>
+      )}
+
+      {/* ================= [신규] DATA ANALYSIS REPORT ================= */}
+      {/* 데이터가 있을 때만 표시 */}
+      {analysisReport && (
+        <section className="w-full max-w-6xl mb-12">
+          <h2 className="text-2xl font-semibold mb-4 text-gray-700">
+            실시간 데이터 분석
+          </h2>
+          
+          <div className={`border rounded-lg shadow-md p-6 transition-colors duration-300 ${
+            analysisReport.isStable 
+              ? 'bg-green-50 border-green-200' 
+              : 'bg-orange-50 border-orange-200'
+          }`}>
+            <div className="flex items-center">
+              {analysisReport.isStable ? (
+                <CheckCircleIcon className="h-8 w-8 text-green-600 mr-3" />
+              ) : (
+                <ExclamationTriangleIcon className="h-8 w-8 text-orange-500 mr-3" />
+              )}
+              
+              <h3 className={`text-2xl font-bold ${
+                analysisReport.isStable ? 'text-green-800' : 'text-orange-800'
+              }`}>
+                {analysisReport.isStable ? '안정적인 상태입니다' : '소음 주의가 필요합니다'}
+              </h3>
+            </div>
+
+            <div className={`mt-4 space-y-3 ${
+              analysisReport.isStable ? 'text-green-700' : 'text-orange-800'
+            }`}>
+              <p className="leading-relaxed">
+                현재 수집된 데이터 중 <strong className="font-semibold">{analysisReport.maxTime}</strong> 경에
+                최대 <strong className="font-semibold">{analysisReport.maxDba}dB</strong>의 소음이 감지되었습니다.
+                {analysisReport.isStable 
+                  ? ' 전반적으로 기준치 이하의 정숙한 환경이 유지되고 있습니다.' 
+                  : ' 일시적으로 기준치를 초과하는 소음이 발생했으니 확인이 필요합니다.'}
+              </p>
+              <p className="leading-relaxed">
+                AI 모델 분석 결과, 현재 주된 소음원은 
+                <strong className="font-semibold"> '{analysisReport.frequentNoise}'</strong>(으)로 식별되었습니다.
+              </p>
+            </div>
+          </div>
         </section>
       )}
       
