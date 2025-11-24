@@ -14,13 +14,12 @@ export default function EditProfilePage() {
 
   const [formData, setFormData] = useState({
     nickName: '',
-    password: '' // 비밀번호는 선택 입력
+    password: ''
   });
 
   const [error, setError] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // user 정보 로드 → 폼에 채우기
   useEffect(() => {
     if (user) {
       setFormData((prev) => ({

@@ -11,9 +11,7 @@ export default function SignUpPage() {
   const [serialNum, setSerialNum] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
 
-  /**
-   * 회원가입 처리 로직
-   */
+  //회원가입 처리 로직
   const handleRegister = async (e) => {
     e.preventDefault(); // 폼 제출 시 기본 동작 방지
 
@@ -40,7 +38,7 @@ export default function SignUpPage() {
 
       const data = await response.json(); // JSON 응답 파싱
 
-      if (response.status === 201 && data.success === true) { // 성공 조건 (HTTP 201)
+      if (response.status === 201 && data.success === true) { 
         // 회원가입 성공 → 토큰 저장 (옵션)
         localStorage.setItem("accessToken", data.data.accessToken);
         localStorage.setItem("refreshToken", data.data.refreshToken);
@@ -57,9 +55,7 @@ export default function SignUpPage() {
     }
   };
 
-  /**
-   * 로그인 페이지로 이동
-   */
+  //로그인 페이지로 이동
   const handleGoToLogin = (e) => {
     e.preventDefault(); // 버튼 기본 동작 방지
     router.push("/login"); // Next.js 라우터로 이동

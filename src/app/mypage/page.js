@@ -14,9 +14,7 @@ export default function MyPage() {
   const { user, isLoading: isUserLoading, error: userError, setUser, logout } = useUser();
   const noticeSetting = user?.noticeSet ?? false;
 
-/**
- * 🔄 알림 설정 토글: PATCH /api/user/notice
- */
+  //알림 설정 토글
   const handleNoticeToggle = async () => {
   const newSetting = !noticeSetting;
 
@@ -51,9 +49,7 @@ export default function MyPage() {
   }
 };
 
-  /**
-   * 🗑️ 회원 탈퇴: DELETE /api/user/my
-   */
+  // 회원 탈퇴
   const handleDeleteAccount = async () => {
     const confirmed = window.confirm(
       "정말로 계정을 삭제하시겠습니까?\n삭제된 계정은 복구할 수 없습니다."
@@ -74,9 +70,7 @@ export default function MyPage() {
     }
   };
 
-  // ===========================================
   // 로딩 & 오류 & 비로그인 처리
-  // ===========================================
   if (isUserLoading) {
     return (
       <div className="p-8 md:p-16 flex justify-center items-center h-full">

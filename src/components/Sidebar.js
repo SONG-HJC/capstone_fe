@@ -8,7 +8,7 @@ import {
   UserCircleIcon, 
   ArrowLeftOnRectangleIcon, 
   ArrowRightOnRectangleIcon,
-  ShieldCheckIcon // [신규] 관리자 아이콘 추가
+  ShieldCheckIcon
 } from '@heroicons/react/24/outline'; 
 import { useUser } from '@/components/UserContext';
 import { useRouter } from 'next/navigation'; 
@@ -17,8 +17,6 @@ export default function Sidebar({ isOpen }) {
   const pathname = usePathname(); 
   const { user, logout } = useUser();
   const router = useRouter(); 
-
-  // [신규] 관리자 여부 확인 (Dashboard 페이지의 로직과 동일하게 유지)
   const isAdmin = user?.role?.toUpperCase() === 'ADMIN';
 
   const NavLink = ({ href, icon: Icon, children, isOpen, onClick }) => { 
@@ -79,7 +77,7 @@ export default function Sidebar({ isOpen }) {
               마이페이지
             </NavLink>
 
-            {/* [신규] 관리자 계정일 경우에만 표시되는 메뉴 */}
+            {/* 관리자 계정일 경우에만 표시되는 메뉴 */}
             {isAdmin && (
               <NavLink href="/admin" icon={ShieldCheckIcon} isOpen={isOpen}>
                 관리자 페이지

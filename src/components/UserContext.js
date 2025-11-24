@@ -10,7 +10,7 @@ export function UserProvider({ children }) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // [핵심] 내 정보 불러오기 함수 (토큰 사용)
+  // 내 정보 불러오기 함수
   const fetchUserProfile = async () => {
     try {
       setIsLoading(true);
@@ -46,7 +46,6 @@ export function UserProvider({ children }) {
     fetchUserProfile();
   }, []);
 
-  // [신규] 로그인 성공 처리
   // LoginPage에서 로그인 API 성공 후 호출하여 상태를 업데이트함
   const loginSuccess = async (tokens) => {
     localStorage.setItem("accessToken", tokens.accessToken);
@@ -55,13 +54,12 @@ export function UserProvider({ children }) {
     await fetchUserProfile(); // 프로필 정보를 새로 받아옴
   };
 
-  // [신규] 로그아웃 처리
+  // 로그아웃 처리
   const logout = () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
     localStorage.removeItem("nickname");
     setUser(null);
-    // 필요 시 백엔드 로그아웃 API 호출 추가 가능
   };
 
   return (

@@ -56,7 +56,6 @@ export default function Header({ toggleSidebar}) {
             >
               <UserCircleIcon className="w-8 h-8 text-gray-400 hover:text-gray-600" />
               <span className="text-sm font-medium hidden sm:block">
-                {/* [수정] API에서 받아온 닉네임(nickName) 사용 */}
                 {user.nickName}
               </span>
             </Link>
