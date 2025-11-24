@@ -32,10 +32,7 @@ export default function AdminPage() {
     }
   }, [isUserLoading, user, isAdmin, router]);
 
-
-  // ============================
   // 상태값
-  // ============================
   const [users, setUsers] = useState([]);
   const [listLoading, setListLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -55,9 +52,7 @@ export default function AdminPage() {
   const isEmail = (str) => /\S+@\S+\.\S+/.test(str);
 
 
-  // ============================
   // 전체 사용자 조회 API
-  // ============================
   const fetchUsers = useCallback(async (page) => { 
     setListLoading(true);
     setError(null);
@@ -111,9 +106,7 @@ export default function AdminPage() {
   }, [isAdmin, currentPage, fetchUsers]);
 
 
-  // ============================
   // 이메일 검색 API
-  // ============================
   const handleEmailSearch = async (e) => {
     e.preventDefault();
     const email = emailSearchInput.trim();
@@ -147,9 +140,7 @@ export default function AdminPage() {
   };
 
 
-  // ============================
   // 권한 변경 API
-  // ============================
   const handleRoleChange = async (userEmail, currentRole) => {
     // 본인 권한은 변경 불가
     if (userEmail === user.email) {
@@ -206,9 +197,7 @@ export default function AdminPage() {
   }
 
 
-  // ============================
   // 렌더링
-  // ============================
   return (
     <div className="p-8 md:p-16">
       <h1 className="text-3xl font-bold text-gray-800 mb-6 border-b pb-2">
@@ -285,7 +274,6 @@ export default function AdminPage() {
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">이메일</th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">닉네임</th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">권한</th>
-                      {/* [신규] 액션 열 추가 */}
                       <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">액션</th>
                     </tr>
                   </thead>
@@ -303,7 +291,6 @@ export default function AdminPage() {
                             {u.role}
                           </span>
                         </td>
-                        {/* [신규] 권한 변경 버튼 */}
                         <td className="px-6 py-4 text-center">
                           <button
                             onClick={() => handleRoleChange(u.email, u.role)}

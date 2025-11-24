@@ -5,7 +5,7 @@ import { useUser } from '@/components/UserContext';
 import { 
   BellAlertIcon, 
   CheckCircleIcon, 
-  ExclamationTriangleIcon // [신규] 주의 상태 아이콘 추가
+  ExclamationTriangleIcon
 } from '@heroicons/react/24/solid';
 import { apiRequest } from '@/utils/apiRequest';
 
@@ -151,7 +151,7 @@ export default function DashboardPage() {
     }
   };
 
-  // ==================== [신규] DATA ANALYSIS LOGIC ====================
+  // ==================== DATA ANALYSIS LOGIC ====================
   // 현재 화면에 보여줄 데이터 결정
   const activeData = isAdmin ? adminNoise : noiseData;
 
@@ -182,7 +182,8 @@ export default function DashboardPage() {
       : '-';
 
     // 4. 상태 판단 (예: 60dB 이상이면 주의)
-    const isStable = maxItem.dba < 60;
+    const hasNoise = activeData.some(item => item.is_noise);
+    const isStable = !hasNoise;
 
     return {
       maxDba: maxItem.dba,
@@ -249,7 +250,7 @@ export default function DashboardPage() {
         </section>
       )}
 
-      {/* ================= [신규] DATA ANALYSIS REPORT ================= */}
+      {/* ================= DATA ANALYSIS REPORT ================= */}
       {/* 데이터가 있을 때만 표시 */}
       {analysisReport && (
         <section className="w-full max-w-6xl mb-12">
