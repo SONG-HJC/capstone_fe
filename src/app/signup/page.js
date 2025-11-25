@@ -58,7 +58,7 @@ export default function SignUpPage() {
   //로그인 페이지로 이동
   const handleGoToLogin = (e) => {
     e.preventDefault(); // 버튼 기본 동작 방지
-    router.push("/login"); // Next.js 라우터로 이동
+    router.push("/login");
   };
 
   return (
